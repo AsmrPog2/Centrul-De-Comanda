@@ -33,19 +33,19 @@ const DispatchDashboard: React.FC<DispatchDashboardProps> = ({ userData, badgeNu
   });
 
   const [activeCalls, setActiveCalls] = useState([
-    { id: 1, type: 'Domestic Disturbance', address: '1234 Main St', priority: 'High', unit: 'Unit 12', status: 'Dispatched', time: '14:30' },
-    { id: 2, type: 'Traffic Stop', address: '5678 Oak Ave', priority: 'Low', unit: 'Unit 7', status: 'In Progress', time: '14:25' },
-    { id: 3, type: 'Medical Emergency', address: '9012 Pine Rd', priority: 'High', unit: 'Ambulance 3', status: 'En Route', time: '14:35' },
+    { id: 1, type: 'Tulburări domestice', address: '1234 Main St', priority: 'Ridicat', unit: 'Unitatea 12', status: 'Expediat', time: '14:30' },
+    { id: 2, type: 'Oprirea Traficului', address: '5678 Oak Ave', priority: 'Scăzut', unit: 'Unitatea  7', status: 'În curs', time: '14:25' },
+    { id: 3, type: 'Urgenta medicala', address: '9012 Pine Rd', priority: 'Ridicat', unit: 'Ambulanta 3', status: 'Drum', time: '14:35' },
   ]);
   
   const [units, setUnits] = useState([
-    { id: 1, unit: 'Unit 1', type: 'LEO', status: 'Available', officer: 'John Smith', lastUpdate: '14:25' },
-    { id: 2, unit: 'Unit 3', type: 'LEO', status: 'Dispatched', officer: 'Robert Johnson', lastUpdate: '14:10' },
-    { id: 3, unit: 'Unit 7', type: 'LEO', status: 'In Progress', officer: 'Michael Williams', lastUpdate: '14:20' },
-    { id: 4, unit: 'Unit 9', type: 'LEO', status: 'Out of Service', officer: 'David Brown', lastUpdate: '13:45' },
-    { id: 5, unit: 'Ambulance 1', type: 'EMS', status: 'Available', paramedic: 'Sarah Connor', lastUpdate: '14:15' },
-    { id: 6, unit: 'Ambulance 3', type: 'EMS', status: 'En Route', paramedic: 'James Wilson', lastUpdate: '14:35' },
-    { id: 7, unit: 'Ambulance 5', type: 'EMS', status: 'Available', paramedic: 'Emily Davis', lastUpdate: '14:05' },
+    { id: 1, unit: 'Unitatea 1', type: 'LEO', status: 'Disponibil', officer: 'John Smith', lastUpdate: '14:25' },
+    { id: 2, unit: 'Unitatea 3', type: 'LEO', status: 'Expediat', officer: 'Robert Johnson', lastUpdate: '14:10' },
+    { id: 3, unit: 'Unitatea 7', type: 'LEO', status: 'În curs', officer: 'Michael Williams', lastUpdate: '14:20' },
+    { id: 4, unit: 'Unitatea 9', type: 'LEO', status: 'Defect', officer: 'David Brown', lastUpdate: '13:45' },
+    { id: 5, unit: 'Ambulanta 1', type: 'EMS', status: 'In afara serviciului', paramedic: 'Sarah Connor', lastUpdate: '14:15' },
+    { id: 6, unit: 'Ambulanta 3', type: 'EMS', status: 'Drum', paramedic: 'James Wilson', lastUpdate: '14:35' },
+    { id: 7, unit: 'Ambulanta 5', type: 'EMS', status: 'Disponibil', paramedic: 'Emily Davis', lastUpdate: '14:05' },
   ]);
 
   // Mock database for search
@@ -165,20 +165,20 @@ const DispatchDashboard: React.FC<DispatchDashboardProps> = ({ userData, badgeNu
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'High': return 'bg-red-600';
-      case 'Medium': return 'bg-orange-600';
-      case 'Low': return 'bg-green-600';
+      case 'Ridicat': return 'bg-red-600';
+      case 'Mediu': return 'bg-orange-600';
+      case 'Scăzut': return 'bg-green-600';
       default: return 'bg-gray-600';
     }
   };
   
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Available': return 'bg-green-100 text-green-800';
-      case 'Dispatched': return 'bg-blue-100 text-blue-800';
-      case 'En Route': return 'bg-blue-100 text-blue-800';
-      case 'In Progress': return 'bg-yellow-100 text-yellow-800';
-      case 'Out of Service': return 'bg-red-100 text-red-800';
+      case 'Disponibil': return 'bg-green-100 text-green-800';
+      case 'Expediat': return 'bg-blue-100 text-blue-800';
+      case 'Spre Drum': return 'bg-blue-100 text-blue-800';
+      case 'În curs': return 'bg-yellow-100 text-yellow-800';
+      case 'In Afara serviciului': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
@@ -192,7 +192,7 @@ const DispatchDashboard: React.FC<DispatchDashboardProps> = ({ userData, badgeNu
             <Radio className="h-8 w-8" />
             <div>
               <h1 className="text-xl font-bold">Centrul de comandă de expediere</h1>
-              <p className="text-purple-200 text-sm">Emergency Communications</p>
+              <p className="text-purple-200 text-sm">Comunicații de urgență</p>
             </div>
           </div>
           <div className="flex items-center space-x-4">
@@ -220,16 +220,16 @@ const DispatchDashboard: React.FC<DispatchDashboardProps> = ({ userData, badgeNu
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <h3 className="font-semibold text-gray-700">Dispatcher Information</h3>
+                <h3 className="font-semibold text-gray-700">Informații despre dispecer</h3>
                 <p className="text-lg font-bold">{userData.name}</p>
                 <p className="text-gray-600">Badge #{badgeNumber}</p>
                 <p className="text-gray-600">{userData.department} - {userData.center}</p>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-700">System Status</h3>
+                <h3 className="font-semibold text-gray-700">Stare sistem</h3>
                 <div className="flex items-center space-x-2 mt-2">
                   <div className="h-3 w-3 bg-green-500 rounded-full"></div>
-                  <span className="text-green-600 font-semibold">All Systems Online</span>
+                  <span className="text-green-600 font-semibold">Toate sistemele online</span>
                 </div>
               </div>
             </div>
@@ -241,19 +241,19 @@ const DispatchDashboard: React.FC<DispatchDashboardProps> = ({ userData, badgeNu
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="dispatch" className="flex items-center space-x-2">
               <Send className="h-4 w-4" />
-              <span>Dispatch Calls</span>
+              <span>Apeluri de expediere</span>
             </TabsTrigger>
             <TabsTrigger value="messaging" className="flex items-center space-x-2">
               <MessageSquare className="h-4 w-4" />
-              <span>Messaging</span>
+              <span>Mesaje</span>
             </TabsTrigger>
             <TabsTrigger value="database" className="flex items-center space-x-2">
               <Database className="h-4 w-4" />
-              <span>Database Search</span>
+              <span>Căutare în baze de date</span>
             </TabsTrigger>
             <TabsTrigger value="units" className="flex items-center space-x-2">
               <Users className="h-4 w-4" />
-              <span>Unit Status</span>
+              <span>Stare unitate</span>
             </TabsTrigger>
           </TabsList>
 
@@ -261,52 +261,52 @@ const DispatchDashboard: React.FC<DispatchDashboardProps> = ({ userData, badgeNu
             {/* New Call Dispatch */}
             <Card>
               <CardHeader>
-                <CardTitle>Create New Dispatch</CardTitle>
+                <CardTitle>Creați o nouă expediere</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2">Call Type</label>
+                    <label className="block text-sm font-medium mb-2">Tip de apel</label>
                     <Select value={newCall.type} onValueChange={(value) => setNewCall({...newCall, type: value})}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select call type" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Traffic Stop">Traffic Stop</SelectItem>
-                        <SelectItem value="Domestic Disturbance">Domestic Disturbance</SelectItem>
-                        <SelectItem value="Medical Emergency">Medical Emergency</SelectItem>
-                        <SelectItem value="Burglary">Burglary</SelectItem>
-                        <SelectItem value="Vehicle Accident">Vehicle Accident</SelectItem>
-                        <SelectItem value="Welfare Check">Welfare Check</SelectItem>
+                        <SelectItem value="Traffic Stop">Oprirea Traficului</SelectItem>
+                        <SelectItem value="Domestic Disturbance">Tulburări domestice</SelectItem>
+                        <SelectItem value="Medical Emergency">Urgenta medicala</SelectItem>
+                        <SelectItem value="Burglary">Efractie</SelectItem>
+                        <SelectItem value="Vehicle Accident">Accident de vehicul</SelectItem>
+                        <SelectItem value="Welfare Check">Verificarea bunăstării</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Priority</label>
+                    <label className="block text-sm font-medium mb-2">Prioritate</label>
                     <Select value={newCall.priority} onValueChange={(value) => setNewCall({...newCall, priority: value})}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select priority" />
+                        <SelectValue placeholder="Selectați prioritate" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="High">High Priority</SelectItem>
-                        <SelectItem value="Medium">Medium Priority</SelectItem>
-                        <SelectItem value="Low">Low Priority</SelectItem>
+                        <SelectItem value="High">Prioritate mare</SelectItem>
+                        <SelectItem value="Medium">Prioritate medie</SelectItem>
+                        <SelectItem value="Low">Prioritate scăzută</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Address</label>
+                    <label className="block text-sm font-medium mb-2">Adresa</label>
                     <Input 
-                      placeholder="Enter address"
+                      placeholder="Introdu adresa"
                       value={newCall.address}
                       onChange={(e) => setNewCall({...newCall, address: e.target.value})}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Assign Unit</label>
+                    <label className="block text-sm font-medium mb-2">Atribuiți unitatea</label>
                     <Select value={newCall.assignedUnit} onValueChange={(value) => setNewCall({...newCall, assignedUnit: value})}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select unit" />
+                        <SelectValue placeholder="Selectați unitatea" />
                       </SelectTrigger>
                       <SelectContent>
                         {units.filter(unit => unit.status === 'Available').map(unit => (
@@ -318,9 +318,9 @@ const DispatchDashboard: React.FC<DispatchDashboardProps> = ({ userData, badgeNu
                     </Select>
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium mb-2">Description</label>
+                    <label className="block text-sm font-medium mb-2">Descriere</label>
                     <Textarea 
-                      placeholder="Enter call details"
+                      placeholder="Introduceți detaliile apelului"
                       value={newCall.description}
                       onChange={(e) => setNewCall({...newCall, description: e.target.value})}
                     />
@@ -328,7 +328,7 @@ const DispatchDashboard: React.FC<DispatchDashboardProps> = ({ userData, badgeNu
                   <div className="md:col-span-2">
                     <Button onClick={handleDispatchCall} className="w-full bg-purple-600 hover:bg-purple-700">
                       <Send className="h-4 w-4 mr-2" />
-                      Dispatch Call
+                      Apel de expediere
                     </Button>
                   </div>
                 </div>
@@ -338,7 +338,7 @@ const DispatchDashboard: React.FC<DispatchDashboardProps> = ({ userData, badgeNu
             {/* Active Calls */}
             <Card>
               <CardHeader>
-                <CardTitle>Active Calls</CardTitle>
+                <CardTitle>Apeluri active</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -379,19 +379,19 @@ const DispatchDashboard: React.FC<DispatchDashboardProps> = ({ userData, badgeNu
           <TabsContent value="messaging">
             <Card>
               <CardHeader>
-                <CardTitle>Send Message to Units</CardTitle>
+                <CardTitle>Trimiteți un mesaj către unități</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2">Recipient</label>
+                    <label className="block text-sm font-medium mb-2">Destinatar</label>
                     <Select value={newMessage.recipient} onValueChange={(value) => setNewMessage({...newMessage, recipient: value})}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select recipient" />
+                        <SelectValue placeholder="Selectați destinatarul" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all_leo">All LEO Units</SelectItem>
-                        <SelectItem value="all_ems">All EMS Units</SelectItem>
+                        <SelectItem value="all_leo">Toate unitățile LEO</SelectItem>
+                        <SelectItem value="all_ems">Toate unitățile EMS</SelectItem>
                         <SelectItem value="all">All Units</SelectItem>
                         {units.map(unit => (
                           <SelectItem key={unit.id} value={unit.unit}>
@@ -402,22 +402,22 @@ const DispatchDashboard: React.FC<DispatchDashboardProps> = ({ userData, badgeNu
                     </Select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Urgency</label>
+                    <label className="block text-sm font-medium mb-2">Urgenţă</label>
                     <Select value={newMessage.urgency} onValueChange={(value) => setNewMessage({...newMessage, urgency: value})}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select priority" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="high">High Urgency</SelectItem>
+                        <SelectItem value="high">Urgență ridicată</SelectItem>
                         <SelectItem value="normal">Normal</SelectItem>
-                        <SelectItem value="low">Low Urgency</SelectItem>
+                        <SelectItem value="low">Urgență scăzută</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Message</label>
+                    <label className="block text-sm font-medium mb-2">Mesaj</label>
                     <Textarea 
-                      placeholder="Type your message here..."
+                      placeholder="Introduceți mesajul aici..."
                       value={newMessage.content}
                       onChange={(e) => setNewMessage({...newMessage, content: e.target.value})}
                       className="min-h-[100px]"
@@ -425,7 +425,7 @@ const DispatchDashboard: React.FC<DispatchDashboardProps> = ({ userData, badgeNu
                   </div>
                   <Button onClick={sendMessage} className="w-full bg-purple-600 hover:bg-purple-700">
                     <Send className="h-4 w-4 mr-2" />
-                    Send Message
+                    Trimite mesaj
                   </Button>
                 </div>
               </CardContent>
@@ -435,7 +435,7 @@ const DispatchDashboard: React.FC<DispatchDashboardProps> = ({ userData, badgeNu
           <TabsContent value="database">
             <Card>
               <CardHeader>
-                <CardTitle>Database Search</CardTitle>
+                <CardTitle>Căutare în baze de date</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -446,21 +446,21 @@ const DispatchDashboard: React.FC<DispatchDashboardProps> = ({ userData, badgeNu
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="person">Person Search</SelectItem>
-                          <SelectItem value="vehicle">Vehicle Search</SelectItem>
+                          <SelectItem value="person">Căutare persoane</SelectItem>
+                          <SelectItem value="vehicle">Căutare de vehicule</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
                     <div className="flex-[3]">
                       <Input 
-                        placeholder={searchType === 'person' ? "Enter name (Try: John Doe, Jane Smith)" : "Enter license plate (Try: ABC123, XYZ789)"}
+                        placeholder={searchType === 'person' ? "Introduceți numele (Încercați: John Doe, Jane Smith)" : "Introduceți plăcuța de înmatriculare (Încercați: ABC123, XYZ789)"}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                       />
                     </div>
                     <Button onClick={handleSearch} className="bg-purple-600 hover:bg-purple-700">
                       <Search className="h-4 w-4 mr-2" />
-                      Search
+                      Căutare
                     </Button>
                   </div>
 
@@ -570,23 +570,23 @@ const DispatchDashboard: React.FC<DispatchDashboardProps> = ({ userData, badgeNu
           <TabsContent value="units">
             <Card>
               <CardHeader>
-                <CardTitle>Unit Status Board</CardTitle>
+                <CardTitle>Consiliul de stare al unității</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                   <div className="text-center p-4 bg-green-50 rounded-lg">
-                    <h3 className="font-semibold text-green-700">Available Units</h3>
-                    <p className="text-2xl font-bold text-green-600">{units.filter(unit => unit.status === 'Available').length}</p>
+                    <h3 className="font-semibold text-green-700">Unități disponibile</h3>
+                    <p className="text-2xl font-bold text-green-600">{units.filter(unit => unit.status === 'Disponibil').length}</p>
                   </div>
                   <div className="text-center p-4 bg-yellow-50 rounded-lg">
-                    <h3 className="font-semibold text-yellow-700">Dispatched/Active Units</h3>
+                    <h3 className="font-semibold text-yellow-700">Unități expediate/active</h3>
                     <p className="text-2xl font-bold text-yellow-600">
-                      {units.filter(unit => ['Dispatched', 'En Route', 'In Progress'].includes(unit.status)).length}
+                      {units.filter(unit => ['Expediat', 'Spre Drum', 'În curs'].includes(unit.status)).length}
                     </p>
                   </div>
                   <div className="text-center p-4 bg-red-50 rounded-lg">
-                    <h3 className="font-semibold text-red-700">Out of Service</h3>
-                    <p className="text-2xl font-bold text-red-600">{units.filter(unit => unit.status === 'Out of Service').length}</p>
+                    <h3 className="font-semibold text-red-700">In Afara Serviciului</h3>
+                    <p className="text-2xl font-bold text-red-600">{units.filter(unit => unit.status === 'In Afara Serviciului').length}</p>
                   </div>
                 </div>
                 
@@ -595,12 +595,12 @@ const DispatchDashboard: React.FC<DispatchDashboardProps> = ({ userData, badgeNu
                     <table className="min-w-full border-collapse">
                       <thead>
                         <tr className="bg-gray-100">
-                          <th className="border px-4 py-2 text-left">Unit</th>
-                          <th className="border px-4 py-2 text-left">Type</th>
-                          <th className="border px-4 py-2 text-left">Status</th>
-                          <th className="border px-4 py-2 text-left">Personnel</th>
-                          <th className="border px-4 py-2 text-left">Last Update</th>
-                          <th className="border px-4 py-2 text-left">Actions</th>
+                          <th className="border px-4 py-2 text-left">Unitate</th>
+                          <th className="border px-4 py-2 text-left">Tip</th>
+                          <th className="border px-4 py-2 text-left">Stare</th>
+                          <th className="border px-4 py-2 text-left">Personal</th>
+                          <th className="border px-4 py-2 text-left">Ultima actualizare</th>
+                          <th className="border px-4 py-2 text-left">Acțiuni</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -622,14 +622,14 @@ const DispatchDashboard: React.FC<DispatchDashboardProps> = ({ userData, badgeNu
                                 ));
                               }}>
                                 <SelectTrigger className="h-8 w-full">
-                                  <SelectValue placeholder="Update Status" />
+                                  <SelectValue placeholder="Actualizare stare" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  <SelectItem value="Available">Set Available</SelectItem>
-                                  <SelectItem value="Dispatched">Set Dispatched</SelectItem>
+                                  <SelectItem value="Available">Set disponibil</SelectItem>
+                                  <SelectItem value="Dispatched">Set expediat</SelectItem>
                                   <SelectItem value="En Route">Set En Route</SelectItem>
-                                  <SelectItem value="In Progress">Set In Progress</SelectItem>
-                                  <SelectItem value="Out of Service">Set Out of Service</SelectItem>
+                                  <SelectItem value="In Progress">Set în curs</SelectItem>
+                                  <SelectItem value="Out of Service">Ieșit din serviciu</SelectItem>
                                 </SelectContent>
                               </Select>
                             </td>

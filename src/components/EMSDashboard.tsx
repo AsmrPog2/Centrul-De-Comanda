@@ -17,15 +17,15 @@ const EMSDashboard: React.FC<EMSDashboardProps> = ({ userData, badgeNumber, onLo
   const [onDuty, setOnDuty] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [activeCalls, setActiveCalls] = useState([
-    { id: 1, type: 'Medical Emergency', address: '1234 Main St', priority: 'High', status: 'Pending' },
-    { id: 2, type: 'Vehicle Accident', address: '5678 Oak Ave', priority: 'Medium', status: 'Pending' },
-    { id: 3, type: 'Chest Pain', address: '9012 Pine Rd', priority: 'High', status: 'Pending' },
+    { id: 1, type: 'Urgenta medicala', address: '1234 Main St', priority: 'Ridicat', status: 'În așteptare' },
+    { id: 2, type: 'Accident de vehicul', address: '5678 Oak Ave', priority: 'Medium', status: 'În așteptare' },
+    { id: 3, type: 'Dureri în piept', address: '9012 Pine Rd', priority: 'Ridicat', status: 'În așteptare' },
   ]);
   const [message, setMessage] = useState('');
   const [logs, setLogs] = useState([
-    { id: 1, time: '14:30', message: 'Shift started', type: 'system' },
-    { id: 2, time: '14:35', message: 'New call received: Medical Emergency', type: 'call' },
-    { id: 3, time: '14:40', message: 'New call received: Vehicle Accident', type: 'call' },
+    { id: 1, time: '14:30', message: 'Tura a început', type: 'system' },
+    { id: 2, time: '14:35', message: 'Apel nou primit: Urgență medicală', type: 'call' },
+    { id: 3, time: '14:40', message: 'Apel nou primit: Accident de vehicul', type: 'call' },
   ]);
 
   React.useEffect(() => {
@@ -41,24 +41,24 @@ const EMSDashboard: React.FC<EMSDashboardProps> = ({ userData, badgeNumber, onLo
   const acceptCall = (callId: number) => {
     setActiveCalls(calls => 
       calls.map(call => 
-        call.id === callId ? { ...call, status: 'Accepted' } : call
+        call.id === callId ? { ...call, status: 'Acceptat' } : call
       )
     );
     const call = activeCalls.find(call => call.id === callId);
     if (call) {
-      addLog(`Accepted call: ${call.type} at ${call.address}`, 'action');
+      addLog(`Acceptat call: ${call.type} at ${call.address}`, 'action');
     }
   };
   
   const denyCall = (callId: number) => {
     setActiveCalls(calls => 
       calls.map(call => 
-        call.id === callId ? { ...call, status: 'Denied' } : call
+        call.id === callId ? { ...call, status: 'Negat' } : call
       )
     );
     const call = activeCalls.find(call => call.id === callId);
     if (call) {
-      addLog(`Denied call: ${call.type} at ${call.address}`, 'action');
+      addLog(`Negat call: ${call.type} at ${call.address}`, 'action');
     }
   };
 
@@ -77,9 +77,9 @@ const EMSDashboard: React.FC<EMSDashboardProps> = ({ userData, badgeNumber, onLo
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'High': return 'text-red-600 bg-red-50';
+      case 'Ridicat': return 'text-red-600 bg-red-50';
       case 'Medium': return 'text-orange-600 bg-orange-50';
-      case 'Low': return 'text-green-600 bg-green-50';
+      case 'Scăzut': return 'text-green-600 bg-green-50';
       default: return 'text-gray-600 bg-gray-50';
     }
   };
@@ -93,7 +93,7 @@ const EMSDashboard: React.FC<EMSDashboardProps> = ({ userData, badgeNumber, onLo
             <Heart className="h-8 w-8" />
             <div>
               <h1 className="text-xl font-bold">Centrul de comandă EMS</h1>
-              <p className="text-red-200 text-sm">Emergency Medical Services</p>
+              <p className="text-red-200 text-sm">Servicii medicale de urgență</p>
             </div>
           </div>
           <div className="flex items-center space-x-4">
@@ -124,13 +124,13 @@ const EMSDashboard: React.FC<EMSDashboardProps> = ({ userData, badgeNumber, onLo
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <h3 className="font-semibold text-gray-700">Personnel Information</h3>
+                <h3 className="font-semibold text-gray-700">Informații de personal</h3>
                 <p className="text-lg font-bold">{userData.name}</p>
                 <p className="text-gray-600">Badge #{badgeNumber}</p>
                 <p className="text-gray-600">{userData.department} - {userData.station}</p>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-700">Status</h3>
+                <h3 className="font-semibold text-gray-700">Stare</h3>
                 <div className="flex items-center space-x-2 mt-2">
                   {onDuty ? (
                     <Power className="h-5 w-5 text-green-600" />
@@ -169,15 +169,15 @@ const EMSDashboard: React.FC<EMSDashboardProps> = ({ userData, badgeNumber, onLo
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="calls" className="flex items-center space-x-2">
               <Phone className="h-4 w-4" />
-              <span>Emergency Calls</span>
+              <span>Apeluri de urgență</span>
             </TabsTrigger>
             <TabsTrigger value="messaging" className="flex items-center space-x-2">
               <MessageSquare className="h-4 w-4" />
-              <span>Messaging</span>
+              <span>Mesaje</span>
             </TabsTrigger>
             <TabsTrigger value="logs" className="flex items-center space-x-2">
               <Logs className="h-4 w-4" />
-              <span>Activity Logs</span>
+              <span>Jurnalele de activitate</span>
             </TabsTrigger>
           </TabsList>
 
@@ -185,7 +185,7 @@ const EMSDashboard: React.FC<EMSDashboardProps> = ({ userData, badgeNumber, onLo
           <TabsContent value="calls">
             <Card>
               <CardHeader>
-                <CardTitle>Active Emergency Calls</CardTitle>
+                <CardTitle>Apeluri de urgență active</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -201,16 +201,16 @@ const EMSDashboard: React.FC<EMSDashboardProps> = ({ userData, badgeNumber, onLo
                           </div>
                           <p className="text-gray-600 mt-1">{call.address}</p>
                           <div className="flex items-center space-x-2 mt-2">
-                            {call.status === 'Accepted' ? (
+                            {call.status === 'Acceptat' ? (
                               <CheckCircle className="h-4 w-4 text-green-600" />
-                            ) : call.status === 'Denied' ? (
+                            ) : call.status === 'Negat' ? (
                               <X className="h-4 w-4 text-red-600" />
                             ) : (
                               <Clock className="h-4 w-4 text-orange-600" />
                             )}
                             <span className={`text-sm ${
-                              call.status === 'Accepted' ? 'text-green-600' : 
-                              call.status === 'Denied' ? 'text-red-600' : 
+                              call.status === 'Acceptat' ? 'text-green-600' : 
+                              call.status === 'Negat' ? 'text-red-600' : 
                               'text-orange-600'
                             }`}>
                               {call.status}
@@ -218,7 +218,7 @@ const EMSDashboard: React.FC<EMSDashboardProps> = ({ userData, badgeNumber, onLo
                           </div>
                         </div>
                         <div className="flex space-x-2 mt-2 sm:mt-0">
-                          {call.status === 'Pending' && onDuty && (
+                          {call.status === 'În așteptare' && onDuty && (
                             <>
                               <Button 
                                 onClick={() => acceptCall(call.id)}
@@ -226,7 +226,7 @@ const EMSDashboard: React.FC<EMSDashboardProps> = ({ userData, badgeNumber, onLo
                                 size="sm"
                               >
                                 <CheckCircle className="h-4 w-4 mr-2" />
-                                Accept Call
+                                Acceptați apelul
                               </Button>
                               <Button 
                                 onClick={() => denyCall(call.id)}
@@ -234,7 +234,7 @@ const EMSDashboard: React.FC<EMSDashboardProps> = ({ userData, badgeNumber, onLo
                                 size="sm"
                               >
                                 <X className="h-4 w-4 mr-2" />
-                                Deny Call
+                                Refuzați apelul
                               </Button>
                             </>
                           )}
@@ -244,7 +244,7 @@ const EMSDashboard: React.FC<EMSDashboardProps> = ({ userData, badgeNumber, onLo
                   ))}
                   {activeCalls.length === 0 && (
                     <div className="text-center py-8 text-gray-500">
-                      No active calls at this time
+                      Nu există apeluri active în acest moment
                     </div>
                   )}
                 </div>
@@ -256,19 +256,19 @@ const EMSDashboard: React.FC<EMSDashboardProps> = ({ userData, badgeNumber, onLo
           <TabsContent value="messaging">
             <Card>
               <CardHeader>
-                <CardTitle>Message Dispatch</CardTitle>
+                <CardTitle>Trimiterea mesajului</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <Textarea 
-                    placeholder="Type your message to dispatch here..."
+                    placeholder="Introduceți mesajul pentru a-l expedia aici..."
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     className="min-h-[100px]"
                   />
                   <Button onClick={sendMessage} className="w-full">
                     <Send className="h-4 w-4 mr-2" />
-                    Send Message
+                    Trimite mesaj
                   </Button>
                 </div>
               </CardContent>
@@ -279,7 +279,7 @@ const EMSDashboard: React.FC<EMSDashboardProps> = ({ userData, badgeNumber, onLo
           <TabsContent value="logs">
             <Card>
               <CardHeader>
-                <CardTitle>Activity Logs</CardTitle>
+                <CardTitle>Jurnalele de activitate</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2 max-h-[400px] overflow-y-auto">
@@ -307,7 +307,7 @@ const EMSDashboard: React.FC<EMSDashboardProps> = ({ userData, badgeNumber, onLo
           <Card>
             <CardContent className="flex items-center justify-between p-4">
               <div>
-                <p className="text-sm text-gray-600">Emergency Calls</p>
+                <p className="text-sm text-gray-600">Apeluri de urgență</p>
                 <p className="text-2xl font-bold">8</p>
               </div>
               <AlertTriangle className="h-8 w-8 text-red-500" />
@@ -316,7 +316,7 @@ const EMSDashboard: React.FC<EMSDashboardProps> = ({ userData, badgeNumber, onLo
           <Card>
             <CardContent className="flex items-center justify-between p-4">
               <div>
-                <p className="text-sm text-gray-600">Available Units</p>
+                <p className="text-sm text-gray-600">Unități disponibile</p>
                 <p className="text-2xl font-bold">12</p>
               </div>
               <Ambulance className="h-8 w-8 text-blue-500" />
@@ -325,7 +325,7 @@ const EMSDashboard: React.FC<EMSDashboardProps> = ({ userData, badgeNumber, onLo
           <Card>
             <CardContent className="flex items-center justify-between p-4">
               <div>
-                <p className="text-sm text-gray-600">On Duty Personnel</p>
+                <p className="text-sm text-gray-600">Personalul de serviciu</p>
                 <p className="text-2xl font-bold">24</p>
               </div>
               <Heart className="h-8 w-8 text-green-500" />
@@ -334,7 +334,7 @@ const EMSDashboard: React.FC<EMSDashboardProps> = ({ userData, badgeNumber, onLo
           <Card>
             <CardContent className="flex items-center justify-between p-4">
               <div>
-                <p className="text-sm text-gray-600">Critical Calls</p>
+                <p className="text-sm text-gray-600">Apeluri critice</p>
                 <p className="text-2xl font-bold">2</p>
               </div>
               <AlertTriangle className="h-8 w-8 text-orange-500" />

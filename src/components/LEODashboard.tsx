@@ -20,21 +20,21 @@ const LEODashboard: React.FC<LEODashboardProps> = ({ userData, badgeNumber, onLo
   const [onDuty, setOnDuty] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [activeCalls, setActiveCalls] = useState([
-    { id: 1, type: 'Domestic Disturbance', address: '1234 Main St', priority: 'High', status: 'Pending', time: '14:30' },
-    { id: 2, type: 'Traffic Stop', address: '5678 Oak Ave', priority: 'Low', status: 'Pending', time: '14:45' },
-    { id: 3, type: 'Burglary', address: '910 Pine Rd', priority: 'Medium', status: 'Pending', time: '15:00' }
+    { id: 1, type: 'Tulburări domestice', address: '1234 Main St', priority: 'Ridicat', status: 'În așteptare', time: '14:30' },
+    { id: 2, type: 'Oprirea Traficului', address: '5678 Oak Ave', priority: 'Scăzut', status: 'În așteptare', time: '14:45' },
+    { id: 3, type: 'Efractie', address: '910 Pine Rd', priority: 'Medium', status: 'În așteptare', time: '15:00' }
   ]);
   const [message, setMessage] = useState('');
   const [logs, setLogs] = useState([
-    { id: 1, time: '14:30', message: 'Shift started', type: 'system' },
-    { id: 2, time: '14:35', message: 'New call received: Domestic Disturbance', type: 'call' },
-    { id: 3, time: '14:45', message: 'New call received: Traffic Stop', type: 'call' }
+    { id: 1, time: '14:30', message: 'Schimba a început', type: 'system' },
+    { id: 2, time: '14:35', message: 'Apel nou primit: Perturbare internă', type: 'call' },
+    { id: 3, time: '14:45', message: 'Apel nou primit: Oprire trafic', type: 'call' }
   ]);
   
   const availableUnits = [
-    { id: 1, unit: 'Unit 2', type: 'Patrol' },
-    { id: 2, unit: 'Unit 5', type: 'K9' },
-    { id: 3, unit: 'Unit 8', type: 'Traffic' }
+    { id: 1, unit: 'Unitatea 2', type: 'Patrulare' },
+    { id: 2, unit: 'Unitatea 5', type: 'K9' },
+    { id: 3, unit: 'Unitatea 8', type: 'Trafic' }
   ];
 
   React.useEffect(() => {
@@ -50,24 +50,24 @@ const LEODashboard: React.FC<LEODashboardProps> = ({ userData, badgeNumber, onLo
   const acceptCall = (callId: number) => {
     setActiveCalls(calls => 
       calls.map(call => 
-        call.id === callId ? { ...call, status: 'Accepted' } : call
+        call.id === callId ? { ...call, status: 'Acceptat' } : call
       )
     );
     const call = activeCalls.find(call => call.id === callId);
     if (call) {
-      addLog(`Accepted call: ${call.type} at ${call.address}`, 'action');
+      addLog(`Acceptat call: ${call.type} at ${call.address}`, 'action');
     }
   };
   
   const denyCall = (callId: number) => {
     setActiveCalls(calls => 
       calls.map(call => 
-        call.id === callId ? { ...call, status: 'Denied' } : call
+        call.id === callId ? { ...call, status: 'Negat' } : call
       )
     );
     const call = activeCalls.find(call => call.id === callId);
     if (call) {
-      addLog(`Denied call: ${call.type} at ${call.address}`, 'action');
+      addLog(`Negat call: ${call.type} at ${call.address}`, 'action');
     }
   };
   
@@ -99,9 +99,9 @@ const LEODashboard: React.FC<LEODashboardProps> = ({ userData, badgeNumber, onLo
   
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'High': return 'text-red-600 bg-red-50';
+      case 'Ridicat': return 'text-red-600 bg-red-50';
       case 'Medium': return 'text-orange-600 bg-orange-50';
-      case 'Low': return 'text-green-600 bg-green-50';
+      case 'Scăzut': return 'text-green-600 bg-green-50';
       default: return 'text-gray-600 bg-gray-50';
     }
   };
@@ -115,7 +115,7 @@ const LEODashboard: React.FC<LEODashboardProps> = ({ userData, badgeNumber, onLo
             <Shield className="h-8 w-8" />
             <div>
               <h1 className="text-xl font-bold">Politia Romana Command Center</h1>
-              <p className="text-blue-200 text-sm">Law Enforcement Portal</p>
+              <p className="text-blue-200 text-sm">Centrul De Comanda</p>
             </div>
           </div>
           <div className="flex items-center space-x-4">
@@ -146,13 +146,13 @@ const LEODashboard: React.FC<LEODashboardProps> = ({ userData, badgeNumber, onLo
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <h3 className="font-semibold text-gray-700">Officer Information</h3>
+                <h3 className="font-semibold text-gray-700">Informații ofițer</h3>
                 <p className="text-lg font-bold">{userData.name}</p>
                 <p className="text-gray-600">Badge #{badgeNumber}</p>
                 <p className="text-gray-600">{userData.department} - {userData.division}</p>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-700">Status</h3>
+                <h3 className="font-semibold text-gray-700">Stare</h3>
                 <div className="flex items-center space-x-2 mt-2">
                   {onDuty ? (
                     <Power className="h-5 w-5 text-green-600" />
@@ -172,12 +172,12 @@ const LEODashboard: React.FC<LEODashboardProps> = ({ userData, badgeNumber, onLo
                   {onDuty ? (
                     <>
                       <PowerOff className="h-4 w-4 mr-2" />
-                      Go Off Duty
+                      Pleacă în afara serviciului
                     </>
                   ) : (
                     <>
                       <Power className="h-4 w-4 mr-2" />
-                      Go On Duty
+                      Du-te la datorie
                     </>
                   )}
                 </Button>
@@ -191,19 +191,19 @@ const LEODashboard: React.FC<LEODashboardProps> = ({ userData, badgeNumber, onLo
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="calls" className="flex items-center space-x-2">
               <AlertTriangle className="h-4 w-4" />
-              <span>Active Calls</span>
+              <span>Apeluri active</span>
             </TabsTrigger>
             <TabsTrigger value="messaging" className="flex items-center space-x-2">
               <MessageSquare className="h-4 w-4" />
-              <span>Messaging</span>
+              <span>Mesaje</span>
             </TabsTrigger>
             <TabsTrigger value="logs" className="flex items-center space-x-2">
               <Logs className="h-4 w-4" />
-              <span>Activity Logs</span>
+              <span>Jurnalele de activitate</span>
             </TabsTrigger>
             <TabsTrigger value="database" className="flex items-center space-x-2">
               <Database className="h-4 w-4" />
-              <span>Database Search</span>
+              <span>Căutare în baze de date</span>
             </TabsTrigger>
           </TabsList>
 
@@ -211,7 +211,7 @@ const LEODashboard: React.FC<LEODashboardProps> = ({ userData, badgeNumber, onLo
           <TabsContent value="calls">
             <Card>
               <CardHeader>
-                <CardTitle>Active Emergency Calls</CardTitle>
+                <CardTitle>Apeluri de urgență active</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -228,9 +228,9 @@ const LEODashboard: React.FC<LEODashboardProps> = ({ userData, badgeNumber, onLo
                           </div>
                           <p className="text-gray-600 mt-1">{call.address}</p>
                           <Badge variant={
-                            call.status === 'Accepted' ? 'default' : 
-                            call.status === 'Denied' ? 'destructive' :
-                            call.status === 'Dispatched' ? 'outline' : 'secondary'
+                            call.status === 'Acceptat' ? 'default' : 
+                            call.status === 'Negat' ? 'destructive' :
+                            call.status === 'Expediat' ? 'outline' : 'secondary'
                           } className="mt-2">
                             {call.status}
                           </Badge>
@@ -244,7 +244,7 @@ const LEODashboard: React.FC<LEODashboardProps> = ({ userData, badgeNumber, onLo
                                 size="sm"
                               >
                                 <Check className="h-4 w-4 mr-2" />
-                                Accept
+                                Accepta
                               </Button>
                               <Button 
                                 onClick={() => denyCall(call.id)} 
@@ -252,14 +252,14 @@ const LEODashboard: React.FC<LEODashboardProps> = ({ userData, badgeNumber, onLo
                                 size="sm"
                               >
                                 <X className="h-4 w-4 mr-2" />
-                                Deny
+                                Negați
                               </Button>
                             </>
                           )}
-                          {call.status === 'Accepted' && (
+                          {call.status === 'Acceptat' && (
                             <div className="relative">
                               <Button variant="outline" size="sm" className="text-blue-600 border-blue-600">
-                                Dispatch Unit
+                                Unitatea de expediere
                               </Button>
                               <div className="absolute top-full right-0 mt-1 bg-white border rounded-md shadow-lg z-10 hidden group-hover:block hover:block">
                                 {availableUnits.map(unit => (
@@ -280,7 +280,7 @@ const LEODashboard: React.FC<LEODashboardProps> = ({ userData, badgeNumber, onLo
                   ))}
                   {activeCalls.length === 0 && (
                     <div className="text-center py-8 text-gray-500">
-                      No active calls at this time
+                      Nu există apeluri active în acest moment
                     </div>
                   )}
                 </div>
@@ -292,7 +292,7 @@ const LEODashboard: React.FC<LEODashboardProps> = ({ userData, badgeNumber, onLo
           <TabsContent value="messaging">
             <Card>
               <CardHeader>
-                <CardTitle>Message Dispatch</CardTitle>
+                <CardTitle>Trimiterea mesajului</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -315,7 +315,7 @@ const LEODashboard: React.FC<LEODashboardProps> = ({ userData, badgeNumber, onLo
           <TabsContent value="logs">
             <Card>
               <CardHeader>
-                <CardTitle>Activity Logs</CardTitle>
+                <CardTitle>Jurnalele de activitate</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2 max-h-[400px] overflow-y-auto">
@@ -367,7 +367,7 @@ const LEODashboard: React.FC<LEODashboardProps> = ({ userData, badgeNumber, onLo
           <Card>
             <CardContent className="flex items-center justify-between p-4">
               <div>
-                <p className="text-sm text-gray-600">Active Calls</p>
+                <p className="text-sm text-gray-600">Apeluri active</p>
                 <p className="text-2xl font-bold">12</p>
               </div>
               <AlertTriangle className="h-8 w-8 text-orange-500" />
@@ -376,7 +376,7 @@ const LEODashboard: React.FC<LEODashboardProps> = ({ userData, badgeNumber, onLo
           <Card>
             <CardContent className="flex items-center justify-between p-4">
               <div>
-                <p className="text-sm text-gray-600">Units Available</p>
+                <p className="text-sm text-gray-600">Unități disponibile</p>
                 <p className="text-2xl font-bold">8</p>
               </div>
               <Car className="h-8 w-8 text-blue-500" />
@@ -385,7 +385,7 @@ const LEODashboard: React.FC<LEODashboardProps> = ({ userData, badgeNumber, onLo
           <Card>
             <CardContent className="flex items-center justify-between p-4">
               <div>
-                <p className="text-sm text-gray-600">Officers On Duty</p>
+                <p className="text-sm text-gray-600">Ofițeri de serviciu</p>
                 <p className="text-2xl font-bold">45</p>
               </div>
               <Users className="h-8 w-8 text-green-500" />
@@ -394,7 +394,7 @@ const LEODashboard: React.FC<LEODashboardProps> = ({ userData, badgeNumber, onLo
           <Card>
             <CardContent className="flex items-center justify-between p-4">
               <div>
-                <p className="text-sm text-gray-600">Priority Calls</p>
+                <p className="text-sm text-gray-600">Apeluri prioritare</p>
                 <p className="text-2xl font-bold">3</p>
               </div>
               <AlertTriangle className="h-8 w-8 text-red-500" />
